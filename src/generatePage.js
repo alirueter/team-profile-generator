@@ -2,7 +2,6 @@ const createCards = employees => {
     
     let cardOutput = ``
     for (let i = 0; i < employees.length; i++) {
-        console.log("employees", employees[i])
         cardOutput = cardOutput + `
         <div class="row">
             <div class="col s12 m6">
@@ -22,7 +21,6 @@ const createCards = employees => {
                             `
                         }
                         if (employees[i].role === 'Engineer') {
-                            console.log('employ', employees[i]);
                             cardOutput = cardOutput + `
                             <li class="list-group-item">GitHub: <a href="https://github.com/${employees[i].getGithub()}">${employees[i].getGithub()}</a></li>
                             `
