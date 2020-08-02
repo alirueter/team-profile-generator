@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 
 const Manager = require('./lib/Manager');
-const Engineer = require('./lib/Employee');
+const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const generatePage = require('./src/generatePage');
 
@@ -163,8 +163,11 @@ const addEngineer = () => {
         }
     ])
     .then(answers => {
+        console.log('answers:', answers);
         const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.github);
+        console.log('engineer:', engineer);
         employees.push(engineer);
+        console.log('employee', employees);
         createTeam();
     })
 };
