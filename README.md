@@ -1,4 +1,7 @@
 # team-profile-generator
+The Team Profile Generator is an application that prompts the user in the commandline for information about their team. It then generates and html page with all of their team members and their information. 
+
+![HTML Page Screenshot](./readmeimages/example.png)
 
 ## User Story
 ```
@@ -59,3 +62,5 @@ In addition to Employee's properties and methods, Intern will also have:
 
 Finally, although it’s not a requirement, you should consider adding validation to ensure that user input provided is in the proper expected format.
 ```
+## Video Walkthrough
+[Click this link to view a video walkthrough to see how the application works.](https://drive.google.com/file/d/1d45pa6BoyL3HTGiAOk7ImnHXHO03kjyu/view)
