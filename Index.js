@@ -1,96 +1,137 @@
 const inquirer = require('inquirer');
+const fs = require('fs');
+const path = require('path');
 
-class generator {
-    constructor() {
-        this.data = {
-            manager: {
-                id: '',
-                email: '',
-                officeNumber: '',
-            },
-        engineers: [],
-        interns: []
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Employee');
+const Intern = require('./lib/Intern');
+//const render = require('./render.js');
+
+const outputPath = path.resolve(__dirname,"output", "team.html")
+const members = [];
+
+const createPage = () => {
+    false.writeFileSync(outputPath, render(members), "utf-8");
+};
+
+const createTeam = () => {
+    inquirer
+    .prompt([
+        {
+            type: "list",
+            name: "pickMember",
+            message: "What is the title of the team member you want to add?",
+            choices: ["Manager", "Engineer", "Intern", "No more team members to add"]
         }
-    }
+    ])
+    .then(userChoice => {
+        switch(userChoice.pickMember) {
+            case 'Manager':
+                addManager();
+                break;
+            case 'Engineer':
+                addEngineer();
+                break;
+            case 'Intern':
+                addIntern();
+                break;
+            default: createPage();
+        }
+    });
+};
 
-    getEmployeeInfo() {
-        inquirer
-        .prompt([
-            {
-                type: "input",
-                message: "Please enter employee's ID: ",
-                name: "id"
-            },
-            {
-                type: "input",
-                message: "Please enter employee's name: ",
-                name: "name"
-            },
-            {
-                type: "input",
-                message: "Please enter employee's title: ",
-                name: "title"
-            }
-        ])
-    };
-    
-    getManagerInfo(managerInfo) {
-        inquirer
-        .prompt([
-            {
-                type: "input",
-                message: "Please enter manager's office number: ",
-                name: "officeNumber"
-            }
-        ])
-        .then(input => {
-            managerInfo.officeNumber = input.officeNumber;
-            return managerInfo;
-        })
-        .then(managerInfo => {
-            console.log(managerInfo);
-            return managerInfo;
-        })
-    };
+const addManager = () => {
+    inquirer
+    .prompt([
+        {
+            type: "input",
+            message: "Please enter manager's name: ",
+            name: "managerName"
+        },
+        {
+            type: "input",
+            message: "Please enter manager's employee ID: ",
+            name: "managerId"
+        },
+        {
+            type: "input",
+            message: "Please enter manager's email: ",
+            name: "managerEmail"
+        },
+        {
+            type: "input",
+            message: "Please enter manager's office number: ",
+            name: "officeNumber"
+        }
+    ])
+    .then(answers => {
+        const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.officeNumber);
+        members.push(manager);
+        createTeam();
+    })
+};
 
-    getEngineerInfo(engineerInfo) {
-        inquirer
-        .prompt([
-            {
-                type: "input",
-                message: "Please enter engineer's GitHub username: ",
-                name: "github"
-            }
-        ])
-        .then(input => {
-            engineerInfo.github = input.github;
-            return engineerInfo;
-        })
-        .then(engineerInfo => {
-            console.log(engineerInfo);
-            return engineerInfo;
-        })
-    };
+const addEngineer = () => {
+    inquirer
+    .prompt([
+        {
+            type: "input",
+            message: "Please enter engineer's name: ",
+            name: "engineerName"
+        },
+        {
+            type: "input",
+            message: "Please enter engineer's employee ID: ",
+            name: "engineerId"
+        },
+        {
+            type: "input",
+            message: "Please enter engineer's email: ",
+            name: "engineerEmail"
+        },
+        {
+            type: "input",
+            message: "Please enter engineer's GitHub username: ",
+            name: "github"
+        }
+    ])
+    .then(answers => {
+        const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.github);
+        members.push(engineer);
+        createTeam();
+    })
+};
 
-    getInternInfo(internInfo) {
-        inquirer
-        .prompt([
-            {
-                type: "input",
-                message: "Please enter intern's school: ",
-                name: "school"
-            }
-        ])
-        .then (input => {
-            internInfo.school = input.school;
-            return internInfo;
-        })
-        .then (internInfo => {
-            console.log(internInfo);
-            return internInfo;
-        })
-    };
-}
+const addIntern = () => {
+    inquirer
+    .prompt([
+        {
+            type: "input",
+            message: "Please enter intern's name: ",
+            name: "internName"
+        },
+        {
+            type: "input",
+            message: "Please enter intern's employee ID: ",
+            name: "internId"
+        },
+        {
+            type: "input",
+            message: "Please enter intern's email: ",
+            name: "internEmail"
+        },
+        {
+            type: "input",
+            message: "Please enter intern's school: ",
+            name: "school"
+        }
+    ])
+    .then(answers => {
+        const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.school);
+        members.push(intern);
+        createTeam();
+    })
+};
 
-const generator = new generator();
-generator.getEmployeeInfo();
+//getEmployeeInfo();
+createTeam();
