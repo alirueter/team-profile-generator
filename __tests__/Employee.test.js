@@ -2,7 +2,7 @@ const Employee = require("../lib/Employee");
 
 test('create new employee object', () => {
     const name = 'Pancake';
-    const id = '1234';
+    const id = 1234;
     const email = 'test@test.com';
     
     const employee = new Employee(name, id, email);
