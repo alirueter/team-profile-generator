@@ -12,7 +12,7 @@ const createCards = employees => {
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">Role: ${employees[i].getRole()}</li>
                             <li class="list-group-item">ID: ${employees[i].getId()}</li>
-                            <li class="list-group-item">Email: ${employees[i].getEmail()}</li>
+                            <li class="list-group-item">Email: <a href="mailto: ${employees[i].getEmail()}">${employees[i].getEmail()}</a></li>
                             `
                         if (employees[i].role === 'Manager') {
                             cardOutput = cardOutput + `
@@ -21,7 +21,7 @@ const createCards = employees => {
                         }
                         if (employees[i].role === 'Engineer') {
                             cardOutput = cardOutput + `
-                            <li class="list-group-item">GitHub: ${employees[i].getGithub()}</li>
+                            <li class="list-group-item">GitHub: <a href="https://github.com/${employees[i].getGithub()}">${employees[i].getGithub()}</a></li>
                             `
                         }
                         if (employees[i].role === 'Intern') {
@@ -54,7 +54,7 @@ function generatePage (teamName, employees) {
     <body>
         <nav class="teal accent-4">
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo">${teamName}</a>
+                <a href="#" class="brand-logo center">${teamName}</a>
             </div>
         </nav>
         <div class="container">
