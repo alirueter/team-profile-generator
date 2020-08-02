@@ -1,18 +1,14 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const path = require('path');
 
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Employee');
 const Intern = require('./lib/Intern');
-//const render = require('./render.js');
+const generatePage = require('./src/generatePage');
 
-const outputPath = path.resolve(__dirname,"output", "team.html")
-const members = [];
 
-const createPage = () => {
-    false.writeFileSync(outputPath, render(members), "utf-8");
-};
+let teamName = '';
+const employees = [];
 
 const createTeam = () => {
     inquirer
@@ -35,7 +31,7 @@ const createTeam = () => {
             case 'Intern':
                 addIntern();
                 break;
-            default: createPage();
+            default: writeToFile();
         }
     });
 };
@@ -66,7 +62,7 @@ const addManager = () => {
     ])
     .then(answers => {
         const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.officeNumber);
-        members.push(manager);
+        employees.push(manager);
         createTeam();
     })
 };
@@ -97,7 +93,7 @@ const addEngineer = () => {
     ])
     .then(answers => {
         const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.github);
-        members.push(engineer);
+        employees.push(engineer);
         createTeam();
     })
 };
@@ -128,10 +124,39 @@ const addIntern = () => {
     ])
     .then(answers => {
         const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.school);
-        members.push(intern);
+        employees.push(intern);
         createTeam();
     })
 };
 
-//getEmployeeInfo();
-createTeam();
+const writeToFile = () => {
+    const html = generatePage (teamName, employees);
+
+    fs.writeFile('./dist/index.html', html, err => {
+        if (err) throw new Error(err);
+        console.log('Team profile has been created in dist folder.');
+    });
+}
+
+function init() {
+    inquirer
+    .prompt([
+        {
+            type: 'input',
+            name: 'teamName',
+            message: 'Enter your team name:  '
+        }
+    ])
+    .then(answers => {
+        if (answers.teamName) {
+            teamName = answers.teamName;
+        }
+        else {
+            teamName = 'My Team'
+        }
+
+        createTeam();
+    })
+}
+
+init();
