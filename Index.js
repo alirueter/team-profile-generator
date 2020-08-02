@@ -163,11 +163,8 @@ const addEngineer = () => {
         }
     ])
     .then(answers => {
-        console.log('answers:', answers);
         const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.github);
-        console.log('engineer:', engineer);
         employees.push(engineer);
-        console.log('employee', employees);
         createTeam();
     })
 };
